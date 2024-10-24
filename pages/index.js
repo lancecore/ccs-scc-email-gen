@@ -1,115 +1,145 @@
 import Image from "next/image";
 import localFont from "next/font/local";
+import { useState } from "react";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+	src: "./fonts/GeistVF.woff",
+	variable: "--font-geist-sans",
+	weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+	src: "./fonts/GeistMonoVF.woff",
+	variable: "--font-geist-mono",
+	weight: "100 900",
 });
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              pages/index.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+	const [name, setName] = useState(""); // State for user name
+	const [positions, setPositions] = useState(""); // State for user positions
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+	// Function to generate the email signature HTML
+	const generateSignature = () => {
+		return `
+			<table width="600px" style="border-top:1px solid #ccc; font-family: Arial, sans-serif;background:transparent;">
+				<tr>
+					<td><br/>
+						<p style="font-weight:bold;">${name}</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>${positions
+							.split(",")
+							.join(
+								' <span style="vertical-align:middle;font-size:10px;">|</span> '
+							)}</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><img src="https://covidsociety.ca/ccs-scc-logo.png" alt="CCS Logo" style="pointer-events: none;"/></p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<a href="https://covidsociety.ca/" style="color: blue; text-decoration: underline;">covidsociety.ca</a> 
+							<span style="vertical-align:middle;font-size:10px;">|</span> 
+							<a href="https://societecovid.ca/" style="color: blue; text-decoration: underline;">societecovid.ca</a>
+						</p>
+					</td>
+				</tr>
+			</table>
+		`;
+	};
+
+	return (
+		<div
+			className={`${geistSans.variable} ${geistMono.variable} flex items-center justify-center min-h-screen bg-slate-50`}
+		>
+			<main className="flex flex-col gap-8 max-w-full w-full md:max-w-[700px] p-2">
+				<section className="grid grid-cols-2 items-center justify-center bg-white rounded border border-gray-300 overflow-hidden text-center">
+					<img
+						src="/ccs-scc-logo.png"
+						alt="CCS-SCC Logo"
+						className="block ml-4 -mt-2"
+					/>
+					<h1 className="text-2xl">Email Signature Generator</h1>
+				</section>
+				<section>
+					<p className="text-base mb-4">
+						This tool allows you to create a professional email
+						signature quickly and easily.
+					</p>
+					<p className="text-base mb-4">
+						Simply enter your name and any positions you hold
+						(separated by commas) in the fields below.
+					</p>
+					<p className="text-base mb-4">
+						Once you fill in the information, you will see a preview
+						of your email signature. You can click on the preview to
+						select the entire signature, and then you can copy and
+						paste it into your email client.
+					</p>
+					<p className="text-base mb-4">
+						You can also copy and paste the HTML version of the
+						signature into your email client if your client supports
+						it.
+					</p>
+					<p className="text-base mb-4 italic">
+						<strong>Please note:</strong> This tool works best on a
+						desktop or laptop computer. You may have issues
+						copying/pasting your signature on a touch screen device.
+					</p>
+				</section>
+				<div>
+					<label className="mt-4 font-semibold">Your Name</label>
+					<input
+						type="text"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						className="border border-gray-500 p-2 w-full mb-4 rounded"
+						placeholder="First Last"
+					/>
+				</div>
+				<div>
+					<label className="font-semibold">
+						Your Positions (separated by commas)
+					</label>
+					<input
+						type="text"
+						value={positions}
+						onChange={(e) => setPositions(e.target.value)}
+						className="border border-gray-500 p-2 w-full mb-4 rounded"
+						placeholder="One Committee Chair, Another Position, Third Position"
+					/>
+				</div>
+				<section>
+					<h2 className="text-lg font-semibold">
+						Email Signature Preview:
+					</h2>
+					<div
+						className="border border-gray-500 p-4 overflow-x-hidden bg-white rounded"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<div
+							style={{ userSelect: "all" }}
+							dangerouslySetInnerHTML={{
+								__html: generateSignature(),
+							}}
+						/>
+					</div>
+				</section>
+				<section>
+					<h2 className="text-lg font-semibold">HTML Signature:</h2>
+					<textarea
+						readOnly
+						value={generateSignature().trim()}
+						className="border border-gray-500 p-2 w-full h-96 rounded"
+						onClick={(e) => e.target.select()}
+					/>
+				</section>
+			</main>
+		</div>
+	);
 }
